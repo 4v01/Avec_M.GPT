@@ -230,4 +230,5 @@ def debug_pattern():
 def ml_disable_route() -> Any:
     st = get_ml_state()
     set_ml_state(model=st.get("model","nb"), threshold=float(st.get("threshold",0.7)), active=False)
+
     return jsonify(get_ml_state())
