@@ -1,0 +1,55 @@
+{
+  "中央广电总台": {"domains": ["cctv.com","cnr.cn","yangshipin.cn"], "platform": "web"},
+  "人民日报数字广东": {"domains": ["gd.people.com.cn"], "platform": "web"},
+  "央广网": {"domains": ["cnr.cn"], "platform": "web"},
+  "中新社": {"domains": ["chinanews.com.cn"], "platform": "web"},
+  "中国企业报": {"domains": ["zqcn.com.cn"], "platform": "web"},
+  "中国青年报": {"domains": ["cyol.com"], "platform": "web"},
+  "中国报道": {"domains": ["china-report.com.cn","china-report.net"], "platform": "web"},
+  "上海证券报": {"domains": ["cnstock.com"], "platform": "web"},
+  "南方日报": {"domains": ["southcn.com"], "platform": "web"},
+  "羊城晚报": {"domains": ["ycwb.com","news.ycwb.com"], "platform": "web"},
+  "广州日报": {"domains": ["dayoo.com","gzdaily.dayoo.com"], "platform": "web"},
+  "南方都市报": {"domains": ["nandu.com","static.nfapp.southcn.com","southcn.com"], "platform": "web"},
+  "新快报": {"domains": ["xkb.com.cn"], "platform": "web"},
+  "广东建设报": {"domains": ["gdjsb.net"], "platform": "web"},
+  "信息时报": {"domains": ["xxsb.com","gzxxts.com"], "platform": "web"},
+
+  "广东电视台": {"domains": ["gdtv.cn"], "platform": "web"},
+  "广东经视": {"domains": ["gdtv.cn"], "platform": "web"},
+  "大湾区卫视": {"domains": ["gdtv.cn"], "platform": "web"},
+  "广东民生DV现场": {"domains": ["gdtv.cn"], "platform": "web"},
+  "广东广播电视台广播融媒体中心": {"domains": ["gdtv.cn"], "platform": "web"},
+  "广东台时政": {"domains": ["gdtv.cn"], "platform": "web"},
+
+  "广州电视台": {"domains": ["gztv.com"], "platform": "web"},
+  "广州电台": {"domains": [], "platform": "web"},
+  "广州交通台": {"domains": [], "platform": "web"},
+  "大洋网": {"domains": ["dayoo.com"], "platform": "web"},
+
+  "广州发布": {"domains": ["gz.gov.cn"], "platform": "web"},
+  "广州越秀发布": {"domains": ["yuexiu.gov.cn"], "platform": "web"},
+  "广州荔湾发布": {"domains": ["liwan.gov.cn"], "platform": "web"},
+  "广州海珠发布": {"domains": ["haizhu.gov.cn"], "platform": "web"},
+  "广州天河发布": {"domains": ["tianhe.gov.cn","thnet.gov.cn"], "platform": "web"},
+  "广州白云发布": {"domains": ["baiyun.gov.cn"], "platform": "web"},
+  "广州黄埔发布": {"domains": ["huangpu.gov.cn","gdd.gov.cn","hp.gov.cn"], "platform": "web"},
+  "广州花都发布": {"domains": ["huadu.gov.cn"], "platform": "web"},
+  "广州番禺发布": {"domains": ["panyu.gov.cn"], "platform": "web"},
+  "广州南沙发布": {"domains": ["nansha.gov.cn"], "platform": "web"},
+  "广州从化发布": {"domains": ["conghua.gov.cn"], "platform": "web"},
+  "广州增城发布": {"domains": ["zengcheng.gov.cn"], "platform": "web"},
+
+  "南方网": {"domains": ["southcn.com"], "platform": "web"},
+  "南方+": {"domains": ["nfnews.com","static.nfnews.com","pc.nfapp.southcn.com","southcn.com"], "platform": "web"},
+
+  "广州市住建局": {"domains": ["zfcxjst.gz.gov.cn","housing.gz.gov.cn","gz.gov.cn"], "platform": "web"},
+  "广州市发改委": {"domains": ["fgw.gz.gov.cn"], "platform": "web"},
+  "广州市统计局": {"domains": ["tj.gz.gov.cn","stats-gz.gov.cn","gz.gov.cn"], "platform": "web"},
+
+  "广州越秀区融媒": {"domains": [], "platform": "wechat"},
+  "广州荔湾区融媒": {"domains": [], "platform": "wechat"},
+  "广州海珠区融媒": {"domains": [], "platform": "wechat"},
+  "广州天河区融媒": {"domains": [], "platform": "wechat"}
+}
+

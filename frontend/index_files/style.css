@@ -1,0 +1,109 @@
+/* ChatGPT-ish dark ui — lightweight, no deps. Franglish + CN labels */
+
+:root{
+  --bg:#010914;
+  --bg2:#050913;
+  --panel:#161a23;
+  --border:#6a7285;
+  --muted:#9aa3b2;
+  --text:#e9eef4;
+  --primary:#10a37f; /* chatgpt green */
+  --primary-2:#0c7d61;
+  --warn:#e6a23c;
+  --danger:#ff5470;
+  --radius:14px;
+  --shadow:0 12px 40px rgba(0,0,0,.28);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font:14px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "PingFang SC","Microsoft YaHei",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 480px at 80% -10%, rgba(16,163,127,.12), transparent 60%),
+    var(--bg);
+}
+
+.topbar{
+  display:flex;align-items:baseline;gap:12px;
+  padding:18px 22px;border-bottom:1px solid var(--border);background:var(--bg2)
+}
+.topbar h1{margin:0;font-size:20px}
+.topbar small{color:var(--muted)}
+
+.container{max-width:1120px;margin:22px auto;padding:0 16px}
+
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 16px 12px;box-shadow:var(--shadow);
+  margin-bottom:16px
+}
+.card h2{margin:4px 0 10px;font-size:16px}
+
+.form-grid{display:grid;gap:12px}
+.field{display:block}
+.field.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field.inline{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.field label{display:block;margin:0 0 6px}
+.field input[type="text"], .field input[type="date"]{
+  width:100%;background:#12151c;border:1px solid #2a3242;color:var(--text);
+  border-radius:10px;padding:10px 12px
+}
+.field small{display:block;color:var(--muted);margin-top:6px}
+
+.actions{display:flex;gap:10px;align-items:center;margin-top:4px}
+.btn{
+  background:#222a39;color:var(--text);border:1px solid #2a3242;
+  padding:10px 14px;border-radius:10px;cursor:pointer;transition:.15s ease
+}
+.btn:hover{border-color:#3a4460}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.primary:hover{filter:brightness(1.06)}
+.muted{color:var(--muted)}
+
+.results-toolbar{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:8px
+}
+.results{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#121620}
+
+.table-wrap{max-height:60vh;overflow:auto;position:relative}
+table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed}
+thead th{
+  position:sticky;top:0;background:#151a24;z-index:2;
+  color:#c7d0df;font-weight:600;padding:10px;border-bottom:1px solid #2b3140;
+  white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
+}
+tbody td{
+  padding:10px;border-bottom:1px solid #212737;vertical-align:top;
+  word-break:break-word;overflow-wrap:anywhere;
+}
+tbody tr:nth-child(2n){background:#131824}
+tbody tr:hover{background:#111726}
+td.url small{color:var(--muted)}
+
+.badge{display:inline-block;padding:2px 6px;border-radius:999px;border:1px solid #2a3242;color:#c8d3e6;background:#11151e}
+.badge.green{border-color:#0f8f70;background:rgba(16,163,127,.12);color:#a9e5d3}
+
+select.lblsel{
+  background:#10141c;border:1px solid #2a3242;color:var(--text);
+  border-radius:8px;padding:6px 8px
+}
+
+/* resizer handle */
+th{position:relative}
+th .col-resizer{
+  position:absolute;right:0;top:0;bottom:0;width:6px;cursor:col-resize;
+  background:linear-gradient(to right, transparent, rgba(255,255,255,.06), transparent);
+  opacity:.2
+}
+th .col-resizer:hover{opacity:.6}
+
+/* density toggle */
+.compact tbody td{padding:6px 8px}
+.compact thead th{padding:8px}
+
+/* footer */
+.footer{color:var(--muted);text-align:center;padding:20px 10px;border-top:1px solid var(--border);margin-top:30px}
+.switch{display:inline-flex;gap:6px;align-items:center;color:var(--muted)}

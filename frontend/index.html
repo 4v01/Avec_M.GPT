@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>新闻我查查</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="./style.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>爬！</h1>
+    <small>不着急，绷会</small>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>参数（随便填）</h2>
+      <form id="crawlForm" class="form-grid">
+        <div class="field">
+          <label for="keywords">关键词（逗号分隔）</label>
+          <input id="keywords" type="text" placeholder="聚龙湾, 罗冲围..." />
+          <small>建议带上项目/地名/公司名，多来几组，更靠谱儿</small>
+        </div>
+
+        <div class="field">
+          <label for="media_names">媒体/站点（可选，逗号分隔）</label>
+          <input id="media_names" type="text" placeholder="大洋网, 南方+, 广州越秀发布..." />
+          <small>支持中文自动找官网；勾“允许公众号”干马化腾</small>
+        </div>
+
+        <div class="field two">
+          <div>
+            <label for="start_date">起始日期</label>
+            <input id="start_date" type="date" />
+          </div>
+          <div>
+            <label for="end_date">结束日期</label>
+            <input id="end_date" type="date" />
+          </div>
+        </div>
+
+        <div class="field inline">
+          <label><input id="allow_wechat" type="checkbox" /> 允许公众号（WeChat）</label>
+          <label><input id="strict_keywords" type="checkbox" /> 严格关键词匹配</label>
+          <label><input id="use_advanced" type="checkbox" checked /> 高性能抓取（curl-cffi）</label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary">开整</button>
+          <button type="button" id="btnReset" class="btn">清空</button>
+          <span id="lastBox" class="muted"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="results-toolbar">
+        <div class="left">
+          <h2>请看：</h2>
+        </div>
+        <div class="right">
+          <button id="btnAutoCols" class="btn">自适应列宽</button>
+          <button id="btnResetCols" class="btn">重置列宽</button>
+          <label class="switch">
+            <input type="checkbox" id="toggleDense" />
+            <span>紧凑模式</span>
+          </label>
+        </div>
+      </div>
+      <div id="results" class="results"></div>
+      <div id="trainSection" class="trainer" style="display:none"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>©©© 内部小工具 · 为交付服务 </span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
