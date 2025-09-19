@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>PR 平台 · 搜索与导出</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/assets/pr_group.ico" />
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Noto Sans',"PingFang SC","Microsoft Yahei",sans-serif;margin:0;background:#f6f7fb;color:#1f2937}
+    header{display:flex;gap:12px;align-items:center;padding:12px 16px;background:#5482e6;color:#fff;position:sticky;top:0}
+    header img{height:28px}
+    .container{max-width:1080px;margin:16px auto;padding:0 12px}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.04);padding:16px;margin-bottom:16px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1 1 280px}
+    input,select,textarea{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #d1d5db;border-radius:10px;background:#fff}
+    textarea{min-height:120px;resize:vertical}
+    label{display:block;font-size:12px;color:#6b7280;margin:0 0 6px 2px}
+    .btn{padding:10px 14px;border-radius:10px;border:1px solid transparent;cursor:pointer;background:#1d3b7e;color:#fff}
+    .btn.subtle{background:#fff;color:#1d3b7e;border-color:#d1d5db}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .tabs{display:flex;gap:6px;margin-bottom:8px}
+    .tab{padding:8px 12px;border-radius:10px;background:#e5e7eb;cursor:pointer}
+    .tab.active{background:#111827;color:#fff}
+    .hint{color:#6b7280;font-size:12px}
+    .log{font-family:ui-monospace,Consolas,monospace;background:#0b1020;color:#d1f2ff;border-radius:10px;padding:10px;max-height:200px;overflow:auto;font-size:12px}
+    .progress{height:8px;background:#e5e7eb;border-radius:8px;overflow:hidden}
+    .bar{height:8px;background:#2563eb;width:0%}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{border-bottom:1px solid #eee;padding:8px}
+  </style>
+</head>
+<body>
+  <header>
+    <img src="/assets/pr_group.png" alt="logo" />
+    <div style="font-weight:600">新闻爬虫工具（内部）</div>
+    <div class="pill" id="dbInfo">DB</div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="search">关键词导出</div>
+        <div class="tab" data-tab="boards">板块导出</div>
+        <div class="tab" data-tab="history">历史记录</div>
+      </div>
+
+      <!-- 搜索导出 -->
+      <section id="tab-search">
+        <div class="row">
+          <div class="col">
+            <label>关键词（用中文逗号或空格分隔）</label>
+            <input id="kw" placeholder="例：聚龙湾 珠江实业" />
+          </div>
+          <div class="col">
+            <label>时间：开始</label>
+            <input id="start" type="date" />
+          </div>
+          <div class="col">
+            <label>时间：结束</label>
+            <input id="end" type="date" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>爬虫（留空=全部，逗号分隔）</label>
+            <input id="spiders" placeholder="例：dayoo_search,ycwb_search" />
+          </div>
+          <div class="col">
+            <label>关键词逻辑</label>
+            <select id="kw_logic">
+              <option value="OR">OR（命中任一）</option>
+              <option value="AND">AND（全部命中）</option>
+            </select>
+          </div>
+          <div class="col">
+            <label>严格匹配（仅 keywords 列）</label>
+            <select id="strict">
+              <option value="0">否</option>
+              <option value="1">是</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn" id="btnCrawlSearch">执行爬虫并导出</button>
+          <button class="btn subtle" id="btnExportSearch">仅导出（不爬）</button>
+          <div style="flex:1"></div>
+          <div class="hint">提示：导出会按 published_at/date 优先过滤，无法解析时才回退 created_at。</div>
+        </div>
+      </section>
+
+      <!-- 板块导出 -->
+      <section id="tab-boards" style="display:none">
+        <div class="row">
+          <div class="col">
+            <label>开始日期</label>
+            <input id="b_start" type="date" />
+          </div>
+          <div class="col">
+            <label>结束日期</label>
+            <input id="b_end" type="date" />
+          </div>
+          <div class="col">
+            <label>并行度</label>
+            <input id="b_cc" type="number" value="24" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" style="flex:1 1 100%">
+            <label>板块 JSON（{ name: ["kw1","kw2"], ... } 或 紧凑语法）</label>
+            <textarea id="boards" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn" id="btnCrawlBoards">执行板块爬虫并导出</button>
+          <button class="btn subtle" id="btnExportBoards">仅导出（不爬）</button>
+          <div style="flex:1"></div>
+          <div class="hint">将生成「总表 + 各板块」多个 sheet。</div>
+        </div>
+      </section>
+
+      <!-- 历史记录 -->
+      <section id="tab-history" style="display:none">
+        <div class="row">
+          <div class="col">
+            <label>最近任务</label>
+            <table id="hist"></table>
+          </div>
+        </div>
+      </section>
+
+      <div class="card" style="margin-top:12px">
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <pre class="log" id="log"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = sel => document.querySelector(sel);
+    const log = (s) => { const el = $('#log'); el.textContent += s + "\n"; el.scrollTop = el.scrollHeight; }
+    const setBar = (p) => $('#bar').style.width = (Math.max(0,Math.min(100,p)) + '%');
+
+    async function getDB() {
+      try {
+        const r = await fetch('/api/_diag/db');
+        const j = await r.json();
+        $('#dbInfo').textContent = (j.table || 'n/a') + ' · ' + (j.total_rows||0);
+      } catch(e) {}
+    }
+
+    function today(delta=0){ const d = new Date(); d.setDate(d.getDate()+delta); return d.toISOString().slice(0,10); }
+
+    // Tabs
+    document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const key = t.dataset.tab;
+      ['search','boards','history'].forEach(k => $('#tab-'+k).style.display = (k===key?'block':'none'));
+    }));
+
+    // Defaults
+    $('#start').value = today(-7);
+    $('#end').value = today();
+    $('#b_start').value = today(-1);
+    $('#b_end').value = today();
+
+    // Boards default (小而精)
+    const DEFAULT_BOARDS = {
+      "城市更新与房地产": ["城市更新条例","更新单元","保障性住房"],
+      "工程服务": ["装配式","EPC","监理"],
+      "城市运营": ["文体场馆","TOD","物业管理"],
+      "集团动态": ["珠江实业","珠江监理","珠江设计"],
+      "资产盘活": ["REITs","存量更新","盘活行动"],
+      "国企改革": ["改革深化提升行动","混合所有制改革","绩效考核"],
+      "百千万工程": ["百千万工程","强县工程","绿美广东"],
+      "数智化": ["数智化","大模型","数据要素"],
+      "低空经济": ["低空经济","eVTOL","低空示范区"],
+      "他山之石": ["中建","越秀地产","示范"]
+    };
+    $('#boards').value = JSON.stringify(DEFAULT_BOARDS, null, 2);
+
+    // Helpers
+    function qs(obj){ return Object.entries(obj).map(([k,v])=>`${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&') }
+    function downloadBlob(blob, filename){
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+    }
+    function saveHist(item){ const k='pr_hist'; const arr = JSON.parse(localStorage.getItem(k)||'[]'); arr.unshift({...item, ts:Date.now()}); localStorage.setItem(k, JSON.stringify(arr.slice(0,50))); renderHist(); }
+    function renderHist(){ const k='pr_hist'; const arr = JSON.parse(localStorage.getItem(k)||'[]'); const rows = arr.map(x=>`<tr><td>${new Date(x.ts).toLocaleString()}</td><td>${x.type}</td><td>${x.kw||x.boards||''}</td><td><a href="#" data-jt="${x.job_tag}">重导</a></td></tr>`).join(''); $('#hist').innerHTML = `<tr><th>时间</th><th>类型</th><th>参数</th><th>操作</th></tr>` + rows; document.querySelectorAll('#hist a').forEach(a=>a.onclick=(e)=>{e.preventDefault(); reExport(a.dataset.jt);}); }
+    function reExport(job_tag){ setBar(10); log(`[re-export] job_tag=${job_tag}`); fetch(`/api/export.xlsx?${qs({job_tag})}`).then(r=>r.blob()).then(b=>{ downloadBlob(b, `reexport_${job_tag}.xlsx`); setBar(100); }); }
+    renderHist(); getDB();
+
+    // Search: crawl + export
+    async function doSearch(withCrawl){
+      const body = {
+        keywords: $('#kw').value.trim(),
+        date_start: $('#start').value,
+        date_end: $('#end').value,
+        spiders: $('#spiders').value.trim(),
+        strict: $('#strict').value,
+        kw_logic: $('#kw_logic').value
+      };
+      const job_tag = `search_${new Date().toISOString().replace(/[-:.TZ]/g,'').slice(0,14)}`;
+      const q = { with_crawl: withCrawl?1:0, job_tag, crawl_timeout: 15 };
+      setBar(5); log(`[search] ${JSON.stringify(body)}`);
+      const r = await fetch(`/api/export.xlsx?${qs(q)}`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+      if(!r.ok){ const t = await r.text(); log('Error: '+t); alert('导出失败'); return; }
+      const blob = await r.blob();
+      downloadBlob(blob, `${job_tag}.xlsx`);
+      saveHist({type:'search', job_tag, kw: body.keywords});
+      setBar(100);
+    }
+
+    $('#btnCrawlSearch').onclick = ()=> doSearch(true);
+    $('#btnExportSearch').onclick = ()=> doSearch(false);
+
+    // Boards: crawl + export
+    async function doBoards(withCrawl){
+      let boardsText = $('#boards').value;
+      let boards;
+      try {
+        boards = JSON.parse(boardsText);
+      } catch(e){ boards = boardsText; }
+
+      const body = {
+        date_start: $('#b_start').value,
+        date_end: $('#b_end').value,
+        boards,
+        max_pages: 3
+      };
+      const job_tag = `board_export_${new Date().toISOString().replace(/[-:.TZ]/g,'').slice(0,14)}`;
+      const q = { group_by: 'board', with_crawl: withCrawl?1:0, job_tag, crawl_timeout: 8, crawl_concurrency: $('#b_cc').value };
+      setBar(5); log(`[boards] ${JSON.stringify(body).slice(0,400)}...`);
+      const r = await fetch(`/api/export.xlsx?${qs(q)}`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+      if(!r.ok){ const t = await r.text(); log('Error: '+t); alert('导出失败'); return; }
+      const blob = await r.blob();
+      downloadBlob(blob, `${job_tag}.xlsx`);
+      saveHist({type:'boards', job_tag, boards: typeof boards==='string' ? '[compact]' : Object.keys(boards).join(',')});
+      setBar(100);
+    }
+
+    $('#btnCrawlBoards').onclick = ()=> doBoards(true);
+    $('#btnExportBoards').onclick = ()=> doBoards(false);
+  </script>
+</body>
+</html>
